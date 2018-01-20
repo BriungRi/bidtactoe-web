@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Kaushan+Script|Open+Sans');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans';
+  background-color: #f44336;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  color: black;
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 18px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
+  background: white;
+  opacity: 0.5;
+}
+
+/* Ripple magic */
+button{
+  position: relative;
+  overflow: hidden;
+}
+
+button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, .5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+button:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+label {
+  color: white;
+}
+

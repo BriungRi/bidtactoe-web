@@ -1,0 +1,36 @@
+.App {
+  color: white;
+  top: 25%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.Logo {
+  font-family: 'Kaushan Script';
+  font-size: 100px;
+}
+
+.Login {
+  background-color: #f44336;
+  text-align: left;
+}
+
+.Login-form {
+  display: inline-block;
+}
+
+.Login-label {
+  font-size: 20px;
+  display: inline-block;
+}
+
+.Login-input {
+  display: inline-block;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
