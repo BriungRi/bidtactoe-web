@@ -10,13 +10,12 @@ body {
 button {
   border: none;
   cursor: pointer;
-  color: black;
+  color: white;
   padding: 8px 16px;
   border-radius: 2px;
   font-size: 18px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
-  background: white;
-  opacity: 0.5;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Ripple magic */

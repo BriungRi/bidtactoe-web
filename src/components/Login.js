@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import Client from "./Client";
+import './../css/App.css';
 
-class Login extends React.Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,26 +18,18 @@ class Login extends React.Component {
     this.setState({
       email: event.target.value
     });
+    this.props.handleEmailChange(event);
   }
 
   handlePasswordChange(event) {
     this.setState({
       password: event.target.value
     })
+    this.props.handlePasswordChange(event);
   }
 
   handleSubmit(event) {
-    var params = {
-      email: this.state.email,
-      password: this.state.password
-    }
-    Client.login(params, function (res) {
-      if (res.error)
-        console.log(res.error);
-      console.log(res.body);
-    })
-
-    event.preventDefault();
+    this.props.handleLogIn(event);
   }
 
   render() {
