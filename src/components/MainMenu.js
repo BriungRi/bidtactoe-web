@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 
 class MainMenu extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>
-                <text>Welcome back, {this.props.username}</text>
+                <p>Welcome back, {this.props.username}</p>
                 <br /><br />
                 <button>Ranked</button>
                 <br /><br />
-                <button>Normal</button>
+                <button onClick={this.props.joinGame}>Normal</button>
                 <br /><br />
-                <button>Instructions</button>
+                <button onClick={this.props.openInstructions}>Instructions</button>
                 <br /><br />
             </div>);
     }

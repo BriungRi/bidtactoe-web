@@ -12,7 +12,8 @@
     "unirest": "0.5.1",
     "firebase": "4.9.0",
     "redux": "3.7.2",
-    "react-redux":"5.0.6"
+    "react-redux": "5.0.6",
+    "react-lottie": "1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

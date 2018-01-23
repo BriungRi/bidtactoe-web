@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './../css/App.css';
-import Page from './Page';
+import Page, { ApplicationState } from './Page';
 import Logo from './Logo';
 import firebase from 'firebase';
 
@@ -29,14 +29,19 @@ class App extends Component {
       .catch(function (err) {
         console.log('permission denied');
       });
+    messaging.getToken()
+      .then(function (currentToken) {
+        if (currentToken) {
+
+        }
+      })
   }
 
   render() {
     return (
-      <div className="App">
-        <body />
+      <div>
         <Logo />
-        <Page loggedIn={false} />
+        <Page applicationState={ApplicationState.LOG_IN} />
       </div>
     );
   }

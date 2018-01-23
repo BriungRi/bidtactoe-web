@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Login from './Login';
 import MainMenu from './MainMenu';
+import Instructions from './Instructions';
+import Loading from './Loading';
 import Client from "./../Client";
 
 export const ApplicationState = {
@@ -27,6 +29,10 @@ class Page extends Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleLogIn = this.handleLogIn.bind(this);
         this.onLogin = this.onLogin.bind(this);
+        this.openMainMenu = this.openMainMenu.bind(this);
+        this.joinGame = this.joinGame.bind(this);
+        this.openInstructions = this.openInstructions.bind(this);
+        this.cancelLoading = this.cancelLoading.bind(this);
     }
 
     handleEmailChange(event) {
@@ -52,15 +58,38 @@ class Page extends Component {
 
     onLogin(res) {
         if (res.error)
-            console.log(res.error);
+            alert(res.body.message);
         else {
-            console.log(res.body);
             this.setState({
-                applicationState: ApplicationState.MAIN_MENU,
                 username: res.body.username,
                 rating: res.body.rating
             })
+            this.openMainMenu();
         }
+    }
+
+    openMainMenu() {
+        this.setState({
+            applicationState: ApplicationState.MAIN_MENU,
+        });
+    }
+
+    joinGame() {
+        console.log("Joining Game");
+        this.setState({
+            applicationState: ApplicationState.LOADING
+        });
+    }
+
+    openInstructions() {
+        this.setState({
+            applicationState: ApplicationState.INSTRUCTIONS
+        });
+    }
+
+    cancelLoading() {
+        console.log("Cancelling loading");
+        this.openMainMenu();
     }
 
     render() {
@@ -71,7 +100,13 @@ class Page extends Component {
                     handleLogIn={this.handleLogIn} />;
             case ApplicationState.MAIN_MENU:
                 return <MainMenu username={this.state.username}
-                    rating={this.state.password} />;
+                    rating={this.state.password}
+                    joinGame={this.joinGame}
+                    openInstructions={this.openInstructions} />;
+            case ApplicationState.INSTRUCTIONS:
+                return <Instructions goBack={this.openMainMenu} />;
+            case ApplicationState.LOADING:
+                return <Loading cancelLoading={this.cancelLoading} />;
             default:
                 return <Login handleEmailChange={this.handleEmailChange}
                     handlePasswordChange={this.handlePasswordChange}
