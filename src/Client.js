@@ -1,5 +1,9 @@
 var unirest = require('unirest');
-const BASE_URL = "http://129.22.39.117:8080/"
+var SockJS = require('sockjs-client');
+var Stomp = require('stompjs');
+
+// const BASE_URL = "https://bidtactoe-backend.herokuapp.com/";
+const BASE_URL = "http://localhost:8000/";
 
 function login(params, callback) {
     var req = unirest("POST", BASE_URL + "login");
@@ -14,5 +18,18 @@ function login(params, callback) {
         .end(callback);
 }
 
-const Client = { login };
+function joinGame() {
+    var socket = SockJS(BASE_URL + 'bidtactoe-ws');
+    var stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/queue/game_ready_update', function (greeting) {
+            console.log(JSON.parse(greeting.body).content);
+        });
+
+        stompClient.send("/app/hello", {}, JSON.stringify({'name': 'brian'}));
+    });
+}
+
+const Client = { login, joinGame };
 export default Client;

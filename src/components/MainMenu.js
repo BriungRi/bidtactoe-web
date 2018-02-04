@@ -4,8 +4,10 @@ class MainMenu extends Component {
     render() {
         return (
             <div>
-                <p>Welcome back, {this.props.username}</p>
-                <br /><br />
+                <p>Welcome back, {this.props.username}
+                <br/>
+                Current rating: {this.props.rating}</p>
+                <br />
                 <button>Ranked</button>
                 <br /><br />
                 <button onClick={this.props.joinGame}>Normal</button>

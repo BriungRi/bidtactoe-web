@@ -76,6 +76,7 @@ class Page extends Component {
 
     joinGame() {
         console.log("Joining Game");
+        Client.joinGame()
         this.setState({
             applicationState: ApplicationState.LOADING
         });
@@ -100,7 +101,7 @@ class Page extends Component {
                     handleLogIn={this.handleLogIn} />;
             case ApplicationState.MAIN_MENU:
                 return <MainMenu username={this.state.username}
-                    rating={this.state.password}
+                    rating={this.state.rating}
                     joinGame={this.joinGame}
                     openInstructions={this.openInstructions} />;
             case ApplicationState.INSTRUCTIONS:
