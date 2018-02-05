@@ -23,11 +23,15 @@ function joinGame() {
     var stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/queue/game_ready_update', function (greeting) {
+        stompClient.subscribe('/topic/greetings', function (greeting) {
+            console.log(JSON.parse(greeting.body).content);
+        });
+        stompClient.subscribe('/topic/game_ready_update', function (greeting) {
             console.log(JSON.parse(greeting.body).content);
         });
 
         stompClient.send("/app/hello", {}, JSON.stringify({'name': 'brian'}));
+        stompClient.send("/app/join_game", {}, JSON.stringify({}));
     });
 }
 
