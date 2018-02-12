@@ -59,7 +59,7 @@ class Page extends Component {
     onLogin(res) {
         if (res.error)
             alert(res.body.message);
-        else {
+        else if(res.body) {
             this.setState({
                 username: res.body.username,
                 rating: res.body.rating

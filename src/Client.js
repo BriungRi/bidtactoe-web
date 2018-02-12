@@ -3,7 +3,7 @@ var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
 
 // const BASE_URL = "https://bidtactoe-backend.herokuapp.com/";
-const BASE_URL = "http://localhost:8000/";
+const BASE_URL = "http://localhost:3001/";
 
 function login(params, callback) {
     var req = unirest("POST", BASE_URL + "login");
