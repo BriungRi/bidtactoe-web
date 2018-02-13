@@ -3,7 +3,7 @@ var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
 
 // const BASE_URL = "https://bidtactoe-backend.herokuapp.com/";
-const BASE_URL = "http://localhost:8000/";
+const BASE_URL = "http://localhost:3001/";
 
 function login(params, callback) {
     var req = unirest("POST", BASE_URL + "login");
@@ -18,18 +18,46 @@ function login(params, callback) {
         .end(callback);
 }
 
-function joinGame() {
-    var socket = SockJS(BASE_URL + 'bidtactoe-ws');
-    var stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/queue/game_ready_update', function (greeting) {
-            console.log(JSON.parse(greeting.body).content);
-        });
+function joinGame(params, callback) {
+    var req = unirest("POST", BASE_URL + "join_game");
+    req.headers({
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .form({
+        username: params.username,
+        deviceId: ""
+    })
+    .end(callback);
+}
 
-        stompClient.send("/app/hello", {}, JSON.stringify({'name': 'brian'}));
+var stompClient;
+function listenForGame(username, onGameFound) {
+    var socket = SockJS(BASE_URL + 'bidtactoe-ws/');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/topic/public/' + username, onGameFound);
     });
 }
 
-const Client = { login, joinGame };
+function leaveQueue(params, callback) {
+    var req = unirest("POST", BASE_URL + "leave_queue");
+    req.headers({
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .form({
+        username: params.username,
+    })
+    .end(callback);
+}
+
+function stopListeningForGame() {
+    if(stompClient)
+        stompClient.disconnect();
+}
+
+
+
+const Client = { login, joinGame, listenForGame, leaveQueue, stopListeningForGame };
 export default Client;

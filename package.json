@@ -2,10 +2,8 @@
   "name": "bidtactoe-web",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000/",
   "dependencies": {
     "axios": "^0.17.1",
-    "firebase": "4.9.0",
     "node-rest-client": "3.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

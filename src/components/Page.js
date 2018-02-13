@@ -3,6 +3,7 @@ import Login from './Login';
 import MainMenu from './MainMenu';
 import Instructions from './Instructions';
 import Loading from './Loading';
+import Game from './game/Game';
 import Client from "./../Client";
 
 export const ApplicationState = {
@@ -24,6 +25,8 @@ class Page extends Component {
             password: '',
             username: '',
             rating: '',
+            gameIndex: '',
+            opponentUsername: ''
         };
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -31,8 +34,11 @@ class Page extends Component {
         this.onLogin = this.onLogin.bind(this);
         this.openMainMenu = this.openMainMenu.bind(this);
         this.joinGame = this.joinGame.bind(this);
+        this.onJoinGame = this.onJoinGame.bind(this);
+        this.onGameFound = this.onGameFound.bind(this);
+        this.leaveQueue = this.leaveQueue.bind(this);
+        this.onLeftQueue = this.onLeftQueue.bind(this);
         this.openInstructions = this.openInstructions.bind(this);
-        this.cancelLoading = this.cancelLoading.bind(this);
     }
 
     handleEmailChange(event) {
@@ -75,11 +81,36 @@ class Page extends Component {
     }
 
     joinGame() {
-        console.log("Joining Game");
-        Client.joinGame()
-        this.setState({
-            applicationState: ApplicationState.LOADING
-        });
+        const params = {
+            username: this.state.username
+        }
+        Client.listenForGame(this.state.username, this.onGameFound); // TODO: Must make these go in order
+        Client.joinGame(params, this.onJoinGame)
+    }
+
+    onJoinGame(res) {
+        if (res.error) {
+            alert(res.body.message);
+        } else {
+            this.setState({
+                applicationState: ApplicationState.LOADING
+            })
+        }
+    }
+
+    onGameFound(message) {
+        if (message.body) {
+            var opponentUsername;
+            if (this.state.username === message.body.playerOneUsername)
+                opponentUsername = message.body.playerTwoUsername;
+            else
+                opponentUsername = message.body.playerOneUsername;
+            this.setState({
+                gameIndex: message.body.gameIndex,
+                opponentUsername: opponentUsername,
+                applicationState: ApplicationState.GAME
+            })
+        }
     }
 
     openInstructions() {
@@ -88,9 +119,20 @@ class Page extends Component {
         });
     }
 
-    cancelLoading() {
-        console.log("Cancelling loading");
-        this.openMainMenu();
+    leaveQueue() {
+        const params = {
+            username: this.state.username
+        }
+        Client.leaveQueue(params, this.onLeftQueue)
+    }
+
+    onLeftQueue(res) {
+        if (res.error) {
+            alert(res.body.message);
+        } else {
+            Client.stopListeningForGame();
+            this.openMainMenu();
+        }
     }
 
     render() {
@@ -107,7 +149,9 @@ class Page extends Component {
             case ApplicationState.INSTRUCTIONS:
                 return <Instructions goBack={this.openMainMenu} />;
             case ApplicationState.LOADING:
-                return <Loading cancelLoading={this.cancelLoading} />;
+                return <Loading cancelLoading={this.leaveQueue} />;
+            case ApplicationState.GAME:
+                return <Game opponentUsername={this.state.opponentUsername} />;
             default:
                 return <Login handleEmailChange={this.handleEmailChange}
                     handlePasswordChange={this.handlePasswordChange}
