@@ -3,6 +3,7 @@ import Login from './Login';
 import MainMenu from './MainMenu';
 import Instructions from './Instructions';
 import Loading from './Loading';
+import EndGame from './EndGame';
 import Game from './game/Game';
 import Client from "./../Client";
 
@@ -25,8 +26,10 @@ class Page extends Component {
             password: '',
             username: '',
             rating: '',
-            gameIndex: '',
-            opponentUsername: ''
+            gameIndex: -1,
+            isPlayerOne: false,
+            opponentUsername: '',
+            mostRecentGameWon: false
         };
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -39,6 +42,7 @@ class Page extends Component {
         this.leaveQueue = this.leaveQueue.bind(this);
         this.onLeftQueue = this.onLeftQueue.bind(this);
         this.openInstructions = this.openInstructions.bind(this);
+        this.onGameEnded = this.onGameEnded.bind(this);
     }
 
     handleEmailChange(event) {
@@ -84,33 +88,47 @@ class Page extends Component {
         const params = {
             username: this.state.username
         }
-        Client.listenForGame(this.state.username, this.onGameFound); // TODO: Must make these go in order
+        this.setState({
+            applicationState: ApplicationState.LOADING
+        })
+        Client.subscribeToWS(this.state.username, this.onGameFound); // TODO: Must make these go in order
         Client.joinGame(params, this.onJoinGame)
     }
 
     onJoinGame(res) {
         if (res.error) {
             alert(res.body.message);
-        } else {
-            this.setState({
-                applicationState: ApplicationState.LOADING
-            })
-        }
+        } 
     }
 
     onGameFound(message) {
+        Client.disconnectFromWS();
         if (message.body) {
+            var payload = JSON.parse(message.body);
             var opponentUsername;
-            if (this.state.username === message.body.playerOneUsername)
-                opponentUsername = message.body.playerTwoUsername;
-            else
-                opponentUsername = message.body.playerOneUsername;
+            var isPlayerOne;
+            if (this.state.username === payload.playerOneUsername) {
+                opponentUsername = payload.playerTwoUsername;
+                isPlayerOne = true;
+            }
+            else { 
+                opponentUsername = payload.playerOneUsername;
+                isPlayerOne = false;
+            }
             this.setState({
-                gameIndex: message.body.gameIndex,
+                gameIndex: payload.gameIndex,
+                isPlayerOne: isPlayerOne,
                 opponentUsername: opponentUsername,
                 applicationState: ApplicationState.GAME
             })
         }
+    }
+
+    onGameEnded(wonGame) {
+       this.setState({
+           applicationState: ApplicationState.END_GAME,
+           mostRecentGameWon: wonGame
+       });
     }
 
     openInstructions() {
@@ -127,10 +145,10 @@ class Page extends Component {
     }
 
     onLeftQueue(res) {
+        Client.disconnectFromWS();
         if (res.error) {
             alert(res.body.message);
         } else {
-            Client.stopListeningForGame();
             this.openMainMenu();
         }
     }
@@ -151,7 +169,15 @@ class Page extends Component {
             case ApplicationState.LOADING:
                 return <Loading cancelLoading={this.leaveQueue} />;
             case ApplicationState.GAME:
-                return <Game opponentUsername={this.state.opponentUsername} />;
+                return <Game opponentUsername={this.state.opponentUsername}
+                    username={this.state.username}
+                    isPlayerOne={this.state.isPlayerOne}
+                    gameIndex={this.state.gameIndex}
+                    onGameEnded={this.onGameEnded} />;
+            case ApplicationState.END_GAME:
+                return <EndGame gameWon={this.state.mostRecentGameWon}
+                    joinGame={this.joinGame}
+                    openMainMenu={this.openMainMenu}/>;
             default:
                 return <Login handleEmailChange={this.handleEmailChange}
                     handlePasswordChange={this.handlePasswordChange}
