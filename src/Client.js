@@ -12,11 +12,25 @@ function login(params, callback) {
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
     })
-        .form({
+    .form({
+        "email": params.email,
+        "password": params.password
+    })
+    .end(callback);
+}
+
+function signup(params, callback) {
+    var req = unirest("POST", BASE_URL + "signup");
+    req.headers({
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .form({
+            "username": params.username,
             "email": params.email,
             "password": params.password
-        })
-        .end(callback);
+    })
+    .end(callback);
 }
 
 // Game joining functions
@@ -92,5 +106,5 @@ function disconnectFromWS() {
         stompClient.disconnect();
 }
 
-const Client = { login, joinGame, leaveQueue, makeBid, makeMove, subscribeToWS, disconnectFromWS };
+const Client = { login, signup, joinGame, leaveQueue, makeBid, makeMove, subscribeToWS, disconnectFromWS };
 export default Client;

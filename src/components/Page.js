@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Login from './Login';
+import Signup from './Signup';
 import MainMenu from './MainMenu';
 import Instructions from './Instructions';
 import Loading from './Loading';
@@ -31,10 +32,12 @@ class Page extends Component {
             opponentUsername: '',
             mostRecentGameWon: false
         };
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleLogIn = this.handleLogIn.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
         this.onLogin = this.onLogin.bind(this);
+        this.handleSignup = this.handleSignup.bind(this);
+        this.onSignup = this.onSignup.bind(this);
+        this.openLogin = this.openLogin.bind(this);
+        this.openSignup = this.openSignup.bind(this);
         this.openMainMenu = this.openMainMenu.bind(this);
         this.joinGame = this.joinGame.bind(this);
         this.onJoinGame = this.onJoinGame.bind(this);
@@ -45,25 +48,13 @@ class Page extends Component {
         this.onGameEnded = this.onGameEnded.bind(this);
     }
 
-    handleEmailChange(event) {
-        this.setState({
-            email: event.target.value
-        });
-    }
-
-    handlePasswordChange(event) {
-        this.setState({
-            password: event.target.value
-        })
-    }
-
-    handleLogIn(event) {
+    handleLogin(email, password) {
+        console.log("Handle login");
         const params = {
-            email: this.state.email,
-            password: this.state.password
-        }
+            email: email,
+            password: password
+        };
         Client.login(params, this.onLogin);
-        event.preventDefault();
     }
 
     onLogin(res) {
@@ -78,9 +69,41 @@ class Page extends Component {
         }
     }
 
+    handleSignup(username, email, password) {
+        const params = {
+            username: username,
+            email: email,
+            password: password
+        };
+        Client.signup(params, this.onSignup);
+    }
+
+    onSignup(res) {
+        if(res.error)
+            alert(res.body.message);
+        else {
+            alert("Account successfully created");
+            this.setState({
+                applicationState: ApplicationState.LOG_IN
+            });
+        }
+    }
+
+    openLogin() {
+        this.setState({
+            applicationState: ApplicationState.LOG_IN
+        });
+    }
+
+    openSignup() {
+        this.setState({
+            applicationState: ApplicationState.SIGN_UP
+        });
+    }
+
     openMainMenu() {
         this.setState({
-            applicationState: ApplicationState.MAIN_MENU,
+            applicationState: ApplicationState.MAIN_MENU
         });
     }
 
@@ -156,9 +179,11 @@ class Page extends Component {
     render() {
         switch (this.state.applicationState) {
             case ApplicationState.LOG_IN:
-                return <Login handleEmailChange={this.handleEmailChange}
-                    handlePasswordChange={this.handlePasswordChange}
-                    handleLogIn={this.handleLogIn} />;
+                return <Login handleLogin={this.handleLogin}
+                openSignup={this.openSignup} />;
+            case ApplicationState.SIGN_UP:
+                return <Signup handleSignup={this.handleSignup}
+                openLogin={this.openLogin} />;
             case ApplicationState.MAIN_MENU:
                 return <MainMenu username={this.state.username}
                     rating={this.state.rating}
