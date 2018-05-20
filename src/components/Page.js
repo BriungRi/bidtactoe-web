@@ -27,7 +27,7 @@ class Page extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pageState: PageState.GAME,
+            pageState: PageState.LOG_IN,
             email: '',
             password: '',
             loginMessage: '',
@@ -56,7 +56,7 @@ class Page extends Component {
         this.logout = this.logout.bind(this);
 
         if(cookies.get(LOGIN_KEY) && cookies.get(PASS_KEY)) {
-            // this.handleLogin(cookies.get(LOGIN_KEY), cookies.get(PASS_KEY));
+            this.handleLogin(cookies.get(LOGIN_KEY), cookies.get(PASS_KEY));
         }
     }
 
