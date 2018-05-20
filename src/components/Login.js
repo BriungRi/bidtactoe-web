@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Form from 'muicss/lib/react/form';
+import Input from 'muicss/lib/react/input';
+import Button from 'muicss/lib/react/button';
 import './../css/App.css';
 
 class Login extends Component {
@@ -11,7 +14,7 @@ class Login extends Component {
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleEmailChange(event) {
@@ -26,28 +29,36 @@ class Login extends Component {
     });
   }
 
-  handleSubmit(event) {
-    this.props.handleLogin(this.state.email, this.state.password);
-    event.preventDefault();
+  handleLogin(event) {
+    if(this.state.email && this.state.password) {
+      console.log(this.state.email + ', ' + this.state.password);
+      this.props.handleLogin(this.state.email, this.state.password);
+      event.preventDefault();
+    }
   }
 
   render() {
     return (
-      <div className="Login">
-        <form className="Login-form" onSubmit={this.handleSubmit}>
-          <label className="Login-label">Email</label>
-          <br />
-          <input className="Login-input" type="text" value={this.state.email} onChange={this.handleEmailChange} />
-          <br /><br />
-          <label className="Login-label">Password</label>
-          <br />
-          <input className="Login-input" type="password" value={this.state.password} onChange={this.handlePasswordChange} />
-          <br /><br />
-          <input type="submit" value="Log In" />
-        </form>
-        <br/><br/>
-        <button className="Link"
-          onClick={this.props.openSignup}><u>No account yet? Create one</u></button>
+      <div className='Login'>
+        <p className='Regular-Text'>{this.props.message}</p>
+        <Form>
+          <Input className='Login-input'
+            onChange={this.handleEmailChange}
+            label='Email' 
+            type='email' 
+            floatingLabel={true} 
+            required={true} />
+          <Input className='Login-input'
+            onChange={this.handlePasswordChange}
+            label='Password' 
+            type='password' 
+            floatingLabel={true} 
+            required={true} />
+          <Button onClick={this.handleLogin} variant='raised'>Log In</Button>
+        </Form>
+        <br/>
+        <p className='Link'
+          onClick={this.props.openSignup}><u>No account yet? Create one</u></p>
       </div>
     );
   }

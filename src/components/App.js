@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './../css/App.css';
-import Page, { ApplicationState } from './Page';
+import Page, { PageState } from './Page';
 import Logo from './Logo';
 
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className='App'>
         <Logo />
-        <Page applicationState={ApplicationState.LOG_IN} />
+        <Page className='Page'
+          pageState={PageState.LOG_IN} />
       </div>
     );
   }

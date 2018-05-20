@@ -1,37 +1,98 @@
+body {
+  background-color: #f44336;
+}
+
 .App {
-  color: white;
-  top: 35%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  text-align: center;
+  font-family: 'Open Sans';
+  padding: 1%;
+}
+
+.Regular-Text {
+  font-size: 2vmax;
 }
 
 .Logo {
   font-family: 'Kaushan Script';
-  font-size: 100px;
+  color: white;
+  font-size: 10vh;
+  width: 100%;
+  height: 10%;
+  text-align: center;
+}
+
+.Page {
+  width: 100%;
+  height: 90%;
+  margin-top: 3vh;
 }
 
 .Login {
-  background-color: #f44336;
-  text-align: left;
-}
-
-.Login-form {
-  display: inline-block;
-}
-
-.Login-label {
-  font-size: 20px;
-  display: inline-block;
-}
-
-.Login-input {
-  display: inline-block;
+  width: 60%;
+  margin-left: 20%;
 }
 
 .Link {
   background: transparent;
+  cursor: pointer;
   padding: 0;
   color: blue;
+}
+
+.Main-Menu {
+  text-align: center;
+}
+
+.Menu-Button {
+  width: 30vmax;
+}
+
+.Instructions {
+  text-align: center;
+  margin: 5%;
+}
+
+.Loading {
+  text-align: center;
+}
+
+.Game {
+  width: 40%;
+  display: inline-block;
+  text-align: center;
+}
+
+.User-Label {
+  font-size: 2vmin;
+  color: white;
+	width: 25%;
+	margin-left: 5%;
+  display: inline-block;
+  vertical-align: top;
+	text-align: left;
+}
+
+.Opponent-Label {
+  font-size: 2vmin;
+  color: white;
+	width: 25%;
+	margin-right: 5%;
+  display: inline-block;
+  vertical-align: top;
+	text-align: right;
+}
+
+.Square {
+	width: 10vw;
+	height: 10vw;
+	margin: .11vw;
+	opacity: 0.2;
+	color: black;
+	font-size: xx-large;
+	background: white;
+}
+
+.Slider {
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
 }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './../../css/game.css'
+import './../../css/App.css'
 
 class Cell extends Component {
     render() {
         return (
-            <button className="square"
-                    disabled={!this.props.enabled}
+            <button className="Square"
+                disabled={!this.props.enabled}
                 onClick={this.props.onCellClick}>
                 {this.props.value}
             </button>

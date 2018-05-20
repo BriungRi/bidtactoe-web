@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Board from './Board';
 import BidDash from './BidDash';
 import Client from './../../Client';
+import './../../css/App.css'
 
 // TODO: update function that handles everything
 
@@ -10,7 +11,7 @@ const GameState = {
     MAKING_MOVE: 2,
     WAITING_BID: 3,
     WAITING_MOVE: 4,
-}
+};
 
 const NO_WINNER = "no_winner";
 const DEFAULT_CELL_VALUE = " ";
@@ -22,6 +23,7 @@ class Game extends Component {
         super(props);
         this.state = {
             gameIndex: this.props.gameIndex,
+            username: this.props.username,
             opponentUsername: this.props.opponentUsername,
             isPlayerOne: this.props.isPlayerOne,
             boardState: '         ',
@@ -36,6 +38,10 @@ class Game extends Component {
         this.onMoveUpdate = this.onMoveUpdate.bind(this);
         this.onUpdateMessage = this.onUpdateMessage.bind(this);
         this.onGameEndUpdate = this.onGameEndUpdate.bind(this);
+        this.bidEnabled = this.bidEnabled.bind(this);
+        this.boardEnabled = this.boardEnabled.bind(this);
+        this.getUserStatus = this.getUserStatus.bind(this);
+        this.getOpponentStatus = this.getOpponentStatus.bind(this);
     }
 
     componentDidMount() {
@@ -135,25 +141,67 @@ class Game extends Component {
         }
     }
 
-    render() {
-        var boardEnabled = false;
-        var bidEnabled = false;
-        if (this.state.gameState === GameState.BIDDING) {
-            bidEnabled = true;
-        } else if (this.state.gameState === GameState.MAKING_MOVE) {
-            boardEnabled = true;
+    bidEnabled() {
+        return this.state.gameState === GameState.BIDDING;
+    }
+
+    boardEnabled() {
+        return this.state.gameState === GameState.MAKING_MOVE;
+    }
+
+    getUserStatus() {
+        switch(this.state.gameState) {
+            case GameState.BIDDING:
+                return "Bidding...";
+            case GameState.WAITING_BID:
+                return "Waiting Opponent Bid...";
+            case GameState.MAKING_MOVE:
+                return "Making Move...";
+            case GameState.WAITING_MOVE:
+                return "Waiting Opponent Move...";
+            default:
+                return "";
         }
+    }
+
+    getOpponentStatus() {
+        switch(this.state.gameState) {
+            case GameState.BIDDING:
+            case GameState.WAITING_BID:
+                return "Bidding...";
+            case GameState.MAKING_MOVE:
+                return "Waiting User Move...";
+            case GameState.WAITING_MOVE:
+                return "Making Move...";
+            default:
+                return "";
+        }
+    }
+
+    render() {
         return (
             <div>
-                <Board boardState={this.state.boardState}
-                    enabled={boardEnabled}
+                <p className='Regular-Text User-Label'>
+                Username: {this.state.username}<br />
+                Status: {this.getUserStatus()}<br />
+                Max Bidding Power: {this.state.maxBidAmt}</p>
+                <div className='Game'>
+                    <Board
+                    boardState={this.state.boardState}
+                    enabled={this.boardEnabled()}
                     onCellClick={i => this.onCellClick(i)} />
-                <br />
-                <BidDash bidAmt={this.state.bidAmt}
+                    <br />
+                    <BidDash
+                    bidAmt={this.state.bidAmt}
                     maxBidAmt={this.state.maxBidAmt}
                     onBid={this.onBid}
                     onBidChanged={this.onBidChanged}
-                    enabled={bidEnabled} />
+                    enabled={this.bidEnabled()} />
+                </div>
+                <p className='Regular-Text Opponent-Label'>
+                Username: {this.state.opponentUsername}<br />
+                Status: {this.getOpponentStatus()}<br />
+                Max Bidding Power: {200 - this.state.maxBidAmt}</p>
             </div>
         )
     }

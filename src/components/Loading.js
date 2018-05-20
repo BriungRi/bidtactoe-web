@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import Button from 'muicss/lib/react/button';
 import Lottie from 'react-lottie';
 import * as animationData from './../loader.json'
+import './../css/App.css';
 
 class Loading extends Component {
     render() {
@@ -10,12 +12,12 @@ class Loading extends Component {
             animationData: animationData
         };
         return (
-            <div>
+            <div className='Loading'>
                 <Lottie options={defaultOptions}
-                    height={400}
-                    width={400} />
-                <h2>Looking for an opponent...</h2>
-                <button onClick={this.props.cancelLoading}>Cancel</button>
+                    height={180}
+                    width={180} />
+                <p className='Regular-Text'>Looking for an opponent...</p>
+                <Button onClick={this.props.cancelLoading}>Cancel</Button>
             </div>
         )
     };

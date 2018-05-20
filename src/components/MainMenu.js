@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
+import Button from 'muicss/lib/react/button';
+import './../css/App.css';
 
 class MainMenu extends Component {
     render() {
         return (
-            <div>
-                <p>Welcome back, {this.props.username}
-                <br/>
-                Current rating: {this.props.rating}</p>
+            <div className='Main-Menu'>
+                <p className='Regular-Text'>Welcome back, {this.props.username}
+                    <br/>
+                    Current rating: {this.props.rating}</p>
                 <br />
-                <button>Ranked</button>
+                {/* <Button>Ranked</Button>
+                <br /><br /> */}
+                <Button className='Menu-Button'
+                onClick={this.props.joinGame}>Normal Game</Button>
                 <br /><br />
-                <button onClick={this.props.joinGame}>Normal</button>
+                <Button className='Menu-Button'
+                onClick={this.props.openInstructions}>Instructions</Button>
                 <br /><br />
-                <button onClick={this.props.openInstructions}>Instructions</button>
+                <Button className='Menu-Button'
+                onClick={this.props.logout}>Logout</Button>
                 <br /><br />
             </div>);
     }

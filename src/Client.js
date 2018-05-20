@@ -1,13 +1,13 @@
-var unirest = require('unirest');
-var SockJS = require('sockjs-client');
-var Stomp = require('stompjs');
+const unirest = require('unirest');
+const SockJS = require('sockjs-client');
+const Stomp = require('stompjs');
 
 const BASE_URL = "http://18.191.44.25:3001/";
 
 // User Authentication Functions
 
 function login(params, callback) {
-    var req = unirest("POST", BASE_URL + "login");
+    const req = unirest("POST", BASE_URL + "login");
     req.headers({
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -20,14 +20,14 @@ function login(params, callback) {
 }
 
 function signup(params, callback) {
-    var req = unirest("POST", BASE_URL + "signup");
+    const req = unirest("POST", BASE_URL + "signup");
     req.headers({
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
     })
     .form({
-            "username": params.username,
             "email": params.email,
+            "username": params.username,
             "password": params.password
     })
     .end(callback);
@@ -36,7 +36,7 @@ function signup(params, callback) {
 // Game joining functions
 
 function joinGame(params, callback) {
-    var req = unirest("POST", BASE_URL + "join_game");
+    const req = unirest("POST", BASE_URL + "join_game");
     req.headers({
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -49,7 +49,7 @@ function joinGame(params, callback) {
 }
 
 function leaveQueue(params, callback) {
-    var req = unirest("POST", BASE_URL + "leave_queue");
+    const req = unirest("POST", BASE_URL + "leave_queue");
     req.headers({
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -63,7 +63,7 @@ function leaveQueue(params, callback) {
 // Game functions
 
 function makeBid(params, callback) {
-    var req = unirest("POST", BASE_URL + "bid");
+    const req = unirest("POST", BASE_URL + "bid");
     req.headers({
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -78,7 +78,7 @@ function makeBid(params, callback) {
 
 function makeMove(params, callback) {
     console.log("Game index: " + params.gameIndex);
-    var req = unirest("POST", BASE_URL + "make_move");
+    const req = unirest("POST", BASE_URL + "make_move");
     req.headers({
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -94,7 +94,7 @@ function makeMove(params, callback) {
 
 var stompClient;
 function subscribeToWS(username, callback) {
-    var socket = SockJS(BASE_URL + 'bidtactoe-ws/');
+    const socket = SockJS(BASE_URL + 'bidtactoe-ws/');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/public/' + username, callback);
@@ -102,7 +102,7 @@ function subscribeToWS(username, callback) {
 }
 
 function disconnectFromWS() {
-    if (stompClient != null)
+    if (stompClient)
         stompClient.disconnect();
 }
 

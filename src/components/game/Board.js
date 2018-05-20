@@ -7,12 +7,12 @@ class Board extends Component {
         for (let i = 0; i < 3; i++) {
             let row = [];
             for (let j = 0; j < 3; j++) {
-                row.push(<Cell key={i * 3 + j} 
-                    value={this.props.boardState.charAt(i * 3 + j)}
-                    onCellClick={() => this.props.onCellClick(i * 3 + j)}
+                const index = i * 3 + j;
+                row.push(<Cell key={index} 
+                    value={this.props.boardState.charAt(index)}
+                    onCellClick={() => this.props.onCellClick(index)}
                     enabled={this.props.enabled} />);
             }
-            row.push(<br key={i * 3 + 4} />);
             board.push(<div key={i}>{row}</div>);
         }
         return (
