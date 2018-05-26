@@ -1,4 +1,5 @@
 all:
+	make clean
 	make web
 	make backend
 web:
