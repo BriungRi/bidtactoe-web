@@ -192,7 +192,7 @@ class Game extends Component {
                     onCellClick={i => this.onCellClick(i)} />
                     <br />
                     <BidDash
-                    bidAmt={this.state.bidAmt}
+                    bidAmt={Math.min(this.state.bidAmt, this.state.maxBidAmt)}
                     maxBidAmt={this.state.maxBidAmt}
                     onBid={this.onBid}
                     onBidChanged={this.onBidChanged}
