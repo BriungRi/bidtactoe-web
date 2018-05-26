@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
+import Button from 'muicss/lib/react/button';
+import './../css/App.css';
 
 class EndGame extends Component {
     render() {
         var titleMessage = this.props.gameWon ? "You Won!" : "You Lost.";
         return (
-            <div>
+            <div className="End-Game">
                 <h1>{titleMessage}</h1>
                 <br/>
-                <button onClick={this.props.joinGame}>Play Again</button>
+                <Button onClick={this.props.joinGame}>Play Again</Button>
                 <br/>
                 <br/>
-                <button onClick={this.props.openMainMenu}>Main Menu</button>
+                <Button onClick={this.props.openMainMenu}>Main Menu</Button>
             </div>
         )
     }
