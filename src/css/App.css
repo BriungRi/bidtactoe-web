@@ -82,13 +82,19 @@ body {
 }
 
 .Square {
-	width: 10vw;
-	height: 10vw;
-	margin: .11vw;
-	opacity: 0.2;
-	color: black;
-	font-size: xx-large;
-	background: white;
+  width: 12.5vw;
+  height: 12.5vw;
+	opacity: 0.15;
+  color: black;
+  font-size: 8.5vw;
+  background: white;
+  border: 0.25vw solid transparent;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .Slider {

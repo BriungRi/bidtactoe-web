@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
+    "muicss": "0.9.39",
     "node-rest-client": "3.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -15,8 +16,7 @@
     "stompjs": "2.3.3",
     "sockjs": "0.3.19",
     "unirest": "0.5.1",
-    "universal-cookie": "2.1.2",
-    "muicss": "0.9.39"
+    "universal-cookie": "2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

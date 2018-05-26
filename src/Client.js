@@ -2,7 +2,8 @@ const unirest = require('unirest');
 const SockJS = require('sockjs-client');
 const Stomp = require('stompjs');
 
-const BASE_URL = "http://18.191.44.25:3001/";
+// const BASE_URL = "http://18.191.44.25:3001/";
+const BASE_URL = "http://localhost:3001/";
 
 // User Authentication Functions
 
@@ -43,7 +44,8 @@ function joinGame(params, callback) {
     })
         .form({
             username: params.username,
-            deviceId: ""
+            deviceType: 'web',
+            deviceToken: ''
         })
         .end(callback);
 }
