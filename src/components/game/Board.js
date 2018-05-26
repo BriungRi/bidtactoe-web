@@ -10,8 +10,8 @@ class Board extends Component {
                 const index = i * 3 + j;
                 row.push(<Cell key={index}
                     value={this.props.boardState.charAt(index)}
-                    onCellClick={() => this.props.onCellClick(index)}
-                    enabled={this.props.enabled} />);
+                    onCellClick={this.props.enabled ? 
+                        () => this.props.onCellClick(index) : () => null} />);
             }
             board.push(<div key={i}>{row}</div>);
         }
