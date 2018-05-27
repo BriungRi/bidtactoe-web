@@ -106,7 +106,8 @@ class Game extends Component {
 
         this.setState({
             gameState: nextGameState,
-            maxBidAmt: payload.biddingPower
+            maxBidAmt: payload.biddingPower,
+            bidAmt: Math.min(this.state.bidAmt, this.state.maxBidAmt)
         });
     }
 
