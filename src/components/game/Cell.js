@@ -5,7 +5,6 @@ class Cell extends Component {
     render() {
         return (
             <td className="Square"
-                disabled={!this.props.enabled}
                 onClick={this.props.onCellClick}>
                 {this.props.value}
             </td>

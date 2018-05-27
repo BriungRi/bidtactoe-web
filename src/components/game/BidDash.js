@@ -9,6 +9,7 @@ class BidDash extends Component {
                 <input className="Slider"
                 type="range"
                 min={0}
+                value={this.props.bidAmt}
                 max={this.props.maxBidAmt}
                 disabled={!this.props.enabled}
                 onChange={this.props.onBidChanged} />
