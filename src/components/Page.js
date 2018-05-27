@@ -225,7 +225,6 @@ class Page extends Component {
                 childPage = (<Loading cancelLoading={this.leaveQueue} />);
                 break;
             case PageState.GAME:
-                document.body.style = 'background: #212121;';
                 childPage = (<Game username={this.state.username}
                             opponentUsername={this.state.opponentUsername}
                             isPlayerOne={this.state.isPlayerOne}
@@ -233,7 +232,6 @@ class Page extends Component {
                             onGameEnded={this.onGameEnded} />);
                 break;
             case PageState.END_GAME:
-                document.body.style = 'background: #f44336;';
                 childPage = (<EndGame gameWon={this.state.mostRecentGameWon}
                             joinGame={this.joinGame}
                             openMainMenu={this.openMainMenu}/>);
