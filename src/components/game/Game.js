@@ -61,7 +61,7 @@ class Game extends Component {
     onBid(event) {
         if (this.state.gameState === GameState.BIDDING) {
             const params = {
-                bidAmt: this.state.bidAmt,
+                bidAmt: Math.min(this.state.bidAmt, this.state.maxBidAmt),
                 gameIndex: this.state.gameIndex,
                 username: this.props.username
             };
@@ -107,7 +107,6 @@ class Game extends Component {
         this.setState({
             gameState: nextGameState,
             maxBidAmt: payload.biddingPower,
-            bidAmt: Math.min(this.state.bidAmt, this.state.maxBidAmt)
         });
     }
 
