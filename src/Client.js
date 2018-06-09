@@ -2,8 +2,12 @@ const unirest = require('unirest');
 const SockJS = require('sockjs-client');
 const Stomp = require('stompjs');
 
-const BASE_URL = "http://18.191.44.25:3001/";
-// const BASE_URL = "http://localhost:3001/";
+var BASE_URL;
+if(process.env.NODE_ENV === 'production') {
+    BASE_URL = "http://18.191.44.25:3001/";
+} else if(process.env.NODE_ENV === 'development') {
+    BASE_URL = "http://localhost:3001/";
+}
 
 // User Authentication Functions
 
