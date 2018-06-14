@@ -11,7 +11,7 @@ backend:
 	docker pull briungri/bidtactoe-backend
 	docker run -it -p 3001:3001 -d briungri/bidtactoe-backend
 redis:
-	docker run --name btt-redis -d redis
+	docker run --name btt-redis -p localhost:6379:6379 -d redis
 clean:
 	docker ps -a -q | xargs -n 1 -P 8 -I {} docker stop {} | xargs -n 1 -P 8 -I {} docker rm {}
 morespace:
