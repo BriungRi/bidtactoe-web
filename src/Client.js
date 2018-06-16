@@ -4,7 +4,7 @@ const Stomp = require('stompjs');
 
 var BASE_URL;
 if(process.env.NODE_ENV === 'production') {
-    BASE_URL = "http://18.191.44.25:3001/";
+    BASE_URL = "http://tactoe.bid:3001/";
 } else if(process.env.NODE_ENV === 'development') {
     BASE_URL = "http://localhost:3001/";
 }
