@@ -1,2 +1,2 @@
 build:
-	docker build -t bidtactoe-web .
+	docker build -t briungri/bidtactoe-web .
