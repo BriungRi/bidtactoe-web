@@ -3,7 +3,7 @@ body {
 }
 
 .App {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   padding: 1%;
 }
 
@@ -12,7 +12,7 @@ body {
 }
 
 .Logo {
-  font-family: 'Kaushan Script';
+  font-family: "Kaushan Script";
   color: white;
   font-size: 10vh;
   width: 100%;
@@ -64,27 +64,27 @@ body {
 .User-Label {
   font-size: 2vmin;
   color: white;
-	width: 25%;
-	margin-left: 5%;
+  width: 25%;
+  margin-left: 5%;
   display: inline-block;
   vertical-align: top;
-	text-align: left;
+  text-align: left;
 }
 
 .Opponent-Label {
   font-size: 2vmin;
   color: white;
-	width: 25%;
-	margin-right: 5%;
+  width: 25%;
+  margin-right: 5%;
   display: inline-block;
   vertical-align: top;
-	text-align: right;
+  text-align: right;
 }
 
 .Square {
   width: 12.5vw;
   height: 12.5vw;
-	opacity: 0.15;
+  opacity: 0.15;
   color: black;
   font-size: 8.5vw;
   background: white;
