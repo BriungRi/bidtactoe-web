@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Button from "muicss/lib/react/button";
 import "./../css/App.css";
+import { Link } from "react-router-dom";
 
 class Instructions extends Component {
   render() {
@@ -18,7 +19,9 @@ class Instructions extends Component {
           make a move but will gain bidding power equivalent to the highest bid
           of that turn.
         </p>
-        <Button onClick={this.props.goBack}>Done</Button>
+        <Link to="/">
+          <Button>Done</Button>
+        </Link>
       </div>
     );
   }

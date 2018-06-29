@@ -3,11 +3,13 @@ import Cookies from "universal-cookie";
 import Login from "./Login";
 import Signup from "./Signup";
 import MainMenu from "./MainMenu";
-import Instructions from "./Instructions";
 import Loading from "./Loading";
 import EndGame from "./EndGame";
 import Game from "./game/Game";
 import Client from "./../Client";
+
+const adjNoun = require("adj-noun");
+adjNoun.seed((Math.random() * 500) | 0);
 
 const cookies = new Cookies();
 const LOGIN_KEY = "login_key";
@@ -17,7 +19,6 @@ export const PageState = {
   LOG_IN: 1,
   SIGN_UP: 2,
   MAIN_MENU: 3,
-  INSTRUCTIONS: 4,
   LOADING: 5,
   GAME: 6,
   END_GAME: 7
@@ -33,12 +34,12 @@ class Page extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageState: PageState.LOG_IN,
+      pageState: PageState.MAIN_MENU,
       email: "",
       password: "",
       loginMessage: "",
       signupMessage: "",
-      username: "",
+      username: adjNoun().join("-"),
       rating: "",
       gameIndex: -1,
       isPlayerOne: false,
@@ -60,10 +61,6 @@ class Page extends Component {
     this.openInstructions = this.openInstructions.bind(this);
     this.onGameEnded = this.onGameEnded.bind(this);
     this.logout = this.logout.bind(this);
-
-    if (cookies.get(LOGIN_KEY) && cookies.get(PASS_KEY)) {
-      this.handleLogin(cookies.get(LOGIN_KEY), cookies.get(PASS_KEY));
-    }
   }
 
   handleLogin(email, password) {
@@ -234,9 +231,6 @@ class Page extends Component {
             logout={this.logout}
           />
         );
-        break;
-      case PageState.INSTRUCTIONS:
-        childPage = <Instructions goBack={this.openMainMenu} />;
         break;
       case PageState.LOADING:
         childPage = <Loading cancelLoading={this.leaveQueue} />;
