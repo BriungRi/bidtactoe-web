@@ -11,8 +11,15 @@ class Loading extends Component {
       autoplay: true,
       animationData: animationData
     };
+    let gameCodeText;
+    if (this.props.gameCode > 0) {
+      gameCodeText = (
+        <p className="Regular-Text">Game Code: {this.props.gameCode}</p>
+      );
+    }
     return (
       <div className="Loading">
+        {gameCodeText}
         <Lottie options={defaultOptions} height={180} width={180} />
         <p className="Regular-Text">Looking for an opponent...</p>
         <Button onClick={this.props.cancelLoading}>Cancel</Button>

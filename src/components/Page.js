@@ -44,7 +44,8 @@ class Page extends Component {
       gameIndex: -1,
       isPlayerOne: false,
       opponentUsername: "",
-      endGameState: EndGameState.TIED
+      endGameState: EndGameState.TIED,
+      gameCode: -1
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.onLogin = this.onLogin.bind(this);
@@ -53,7 +54,10 @@ class Page extends Component {
     this.openLogin = this.openLogin.bind(this);
     this.openSignup = this.openSignup.bind(this);
     this.openMainMenu = this.openMainMenu.bind(this);
+    this.createGame = this.createGame.bind(this);
     this.joinGame = this.joinGame.bind(this);
+    this.joinRandomGame = this.joinRandomGame.bind(this);
+    this.onGameCreated = this.onGameCreated.bind(this);
     this.onJoinGame = this.onJoinGame.bind(this);
     this.onGameFound = this.onGameFound.bind(this);
     this.leaveQueue = this.leaveQueue.bind(this);
@@ -130,20 +134,50 @@ class Page extends Component {
     });
   }
 
-  joinGame() {
+  createGame() {
     const params = {
       username: this.state.username
     };
-    this.setState({
-      pageState: PageState.LOADING
-    });
-    Client.subscribeToWS(this.state.username, this.onGameFound); // TODO: Must make these go in order
+    Client.subscribeToWS(this.state.username, this.onGameFound);
+    Client.createGame(params, this.onGameCreated);
+  }
+
+  joinGame() {
+    const gameCode = prompt("Enter game code: ");
+    const params = {
+      username: this.state.username,
+      gameCode: gameCode
+    };
+    Client.subscribeToWS(this.state.username, this.onGameFound);
     Client.joinGame(params, this.onJoinGame);
+  }
+
+  joinRandomGame() {
+    const params = {
+      username: this.state.username
+    };
+    Client.subscribeToWS(this.state.username, this.onGameFound);
+    Client.joinRandomGame(params, this.onJoinGame);
+  }
+
+  onGameCreated(res) {
+    if (res.error) {
+      alert(res.body.message);
+    } else {
+      this.setState({
+        pageState: PageState.LOADING,
+        gameCode: res.body.gameCode
+      });
+    }
   }
 
   onJoinGame(res) {
     if (res.error) {
       alert(res.body.message);
+    } else {
+      this.setState({
+        pageState: PageState.LOADING
+      });
     }
   }
 
@@ -172,7 +206,7 @@ class Page extends Component {
   onGameEnded(endState) {
     this.setState({
       pageState: PageState.END_GAME,
-      endGameState: endState
+      endGameState: endState,
     });
   }
 
@@ -185,7 +219,8 @@ class Page extends Component {
   leaveQueue() {
     this.openMainMenu();
     const params = {
-      username: this.state.username
+      username: this.state.username,
+      gameCode: -1
     };
     Client.leaveQueue(params, this.onLeftQueue);
   }
@@ -225,15 +260,22 @@ class Page extends Component {
         childPage = (
           <MainMenu
             username={this.state.username}
-            rating={this.state.rating}
+            createGame={this.createGame}
             joinGame={this.joinGame}
+            joinRandomGame={this.joinRandomGame}
+            rating={this.state.rating}
             openInstructions={this.openInstructions}
             logout={this.logout}
           />
         );
         break;
       case PageState.LOADING:
-        childPage = <Loading cancelLoading={this.leaveQueue} />;
+        childPage = (
+          <Loading
+            cancelLoading={this.leaveQueue}
+            gameCode={this.state.gameCode}
+          />
+        );
         break;
       case PageState.GAME:
         childPage = (
@@ -250,7 +292,7 @@ class Page extends Component {
         childPage = (
           <EndGame
             endGameState={this.state.endGameState}
-            joinGame={this.joinGame}
+            joinGame={this.joinRandomGame}
             openMainMenu={this.openMainMenu}
           />
         );

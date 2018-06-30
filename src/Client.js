@@ -42,8 +42,39 @@ function signup(params, callback) {
 
 // Game joining functions
 
+function createGame(params, callback) {
+  const req = unirest("POST", BASE_URL + "create_game");
+  req
+    .headers({
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .form({
+      username: params.username,
+      deviceType: "web",
+      deviceToken: ""
+    })
+    .end(callback);
+}
+
 function joinGame(params, callback) {
   const req = unirest("POST", BASE_URL + "join_game");
+  req
+    .headers({
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .form({
+      username: params.username,
+      deviceType: "web",
+      deviceToken: "",
+      gameCode: params.gameCode
+    })
+    .end(callback);
+}
+
+function joinRandomGame(params, callback) {
+  const req = unirest("POST", BASE_URL + "join_random_game");
   req
     .headers({
       "Cache-Control": "no-cache",
@@ -123,7 +154,9 @@ function disconnectFromWS() {
 const Client = {
   login,
   signup,
+  createGame,
   joinGame,
+  joinRandomGame,
   leaveQueue,
   makeBid,
   makeMove,
