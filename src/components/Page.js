@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import EndGame from "./EndGame";
 import Game from "./game/Game";
 import Client from "./../Client";
+import Navigation from "./Navigation";
 
 const adjNoun = require("adj-noun");
 adjNoun.seed((Math.random() * 500) | 0);
@@ -206,7 +207,7 @@ class Page extends Component {
   onGameEnded(endState) {
     this.setState({
       pageState: PageState.END_GAME,
-      endGameState: endState,
+      endGameState: endState
     });
   }
 
@@ -258,15 +259,18 @@ class Page extends Component {
         break;
       case PageState.MAIN_MENU:
         childPage = (
-          <MainMenu
-            username={this.state.username}
-            createGame={this.createGame}
-            joinGame={this.joinGame}
-            joinRandomGame={this.joinRandomGame}
-            rating={this.state.rating}
-            openInstructions={this.openInstructions}
-            logout={this.logout}
-          />
+          <div>
+            <MainMenu
+              username={this.state.username}
+              createGame={this.createGame}
+              joinGame={this.joinGame}
+              joinRandomGame={this.joinRandomGame}
+              rating={this.state.rating}
+              openInstructions={this.openInstructions}
+              logout={this.logout}
+            />
+            <Navigation />
+          </div>
         );
         break;
       case PageState.LOADING:

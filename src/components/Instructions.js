@@ -7,7 +7,7 @@ class Instructions extends Component {
   render() {
     return (
       <div className="Instructions">
-        <h3>Instructions</h3>
+        <h2>Instructions</h2>
         <p>
           How to win: Get 3 in a row<br />
           <br />The Catch: You must win a bid in order to make a move<br />
