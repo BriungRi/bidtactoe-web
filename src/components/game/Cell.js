@@ -4,7 +4,7 @@ import { DEFAULT_CELL_VALUE } from "./Game";
 
 class Cell extends Component {
   render() {
-    if (this.props.value != DEFAULT_CELL_VALUE) {
+    if (this.props.value !== DEFAULT_CELL_VALUE) {
       return (
         <td className="Square-on" onClick={this.props.onCellClick}>
           {this.props.value}
@@ -13,7 +13,7 @@ class Cell extends Component {
     } else
       return (
         <td className="Square-off" onClick={this.props.onCellClick}>
-          *
+          `
         </td>
       );
   }

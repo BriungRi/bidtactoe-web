@@ -38,7 +38,7 @@ class Page extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageState: PageState.MAIN_MENU,
+      pageState: PageState.GAME,
       email: "",
       password: "",
       loginMessage: "",
