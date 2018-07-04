@@ -15,7 +15,7 @@ const GameState = {
 };
 
 const NO_WINNER = "no_winner";
-const DEFAULT_CELL_VALUE = " ";
+export const DEFAULT_CELL_VALUE = " ";
 const PLAYER_ONE_CELL_VALUE = "O";
 const PLAYER_TWO_CELL_VALUE = "X";
 

@@ -98,9 +98,9 @@ body {
   text-align: right;
 }
 
-.Square {
+.Square-on {
   width: 12.5vw;
-  height: 12.5vw;
+  padding-top: 0%;
   opacity: 0.15;
   color: black;
   font-size: 8.5vw;
@@ -109,7 +109,21 @@ body {
   -webkit-background-clip: padding;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
+.Square-off {
+  width: 12.5vw;
+  padding-top: 0%;
+  opacity: 0.15;
+  color: white;
+  font-size: 8.5vw;
+  background: white;
+  border: 0.25vw solid transparent;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
   overflow: hidden;
   white-space: nowrap;
 }
