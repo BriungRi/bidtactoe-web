@@ -15,6 +15,9 @@ adjNoun.seed((Math.random() * 500) | 0);
 const cookies = new Cookies();
 const LOGIN_KEY = "login_key";
 const PASS_KEY = "password_key";
+const NUM_AI_WINS_KEY = "ai_wins_key";
+const NUM_AI_TIES_KEY = "ai_ties_key";
+const NUM_AI_LOSSES_KEY = "ai_losses_key";
 
 export const PageState = {
   LOG_IN: 1,
@@ -46,7 +49,10 @@ class Page extends Component {
       isPlayerOne: false,
       opponentUsername: "",
       endGameState: EndGameState.TIED,
-      gameCode: -1
+      gameCode: -1,
+      numAIWins: cookies.get(NUM_AI_WINS_KEY) || 0,
+      numAITies: cookies.get(NUM_AI_TIES_KEY) || 0,
+      numAILosses: cookies.get(NUM_AI_LOSSES_KEY) || 0
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.onLogin = this.onLogin.bind(this);
@@ -66,6 +72,19 @@ class Page extends Component {
     this.openInstructions = this.openInstructions.bind(this);
     this.onGameEnded = this.onGameEnded.bind(this);
     this.logout = this.logout.bind(this);
+    this.updateAIStats = this.updateAIStats.bind(this);
+    this.onNumAIWinsRcvd = this.onNumAIWinsRcvd.bind(this);
+    this.onNumAITiesRcvd = this.onNumAITiesRcvd.bind(this);
+    this.onNumAILossesRcvd = this.onNumAILossesRcvd.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateAIStats();
+    this.timerID = setInterval(() => this.updateAIStats(), 30000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   handleLogin(email, password) {
@@ -73,7 +92,7 @@ class Page extends Component {
       email: email,
       password: password
     };
-    cookies.set(LOGIN_KEY, email, { path: "/" }); // TODO: Should probably store some auth token
+    cookies.set(LOGIN_KEY, email, { path: "/" });
     cookies.set(PASS_KEY, password, { path: "/" });
     Client.login(params, this.onLogin);
   }
@@ -209,6 +228,7 @@ class Page extends Component {
       pageState: PageState.END_GAME,
       endGameState: endState
     });
+    this.updateAIStats();
   }
 
   openInstructions() {
@@ -234,6 +254,45 @@ class Page extends Component {
     cookies.remove(LOGIN_KEY, { path: "/" });
     cookies.remove(PASS_KEY, { path: "/" });
     this.openLogin();
+  }
+
+  updateAIStats() {
+    Client.getNumAIWins(this.onNumAIWinsRcvd);
+    Client.getNumAITies(this.onNumAITiesRcvd);
+    Client.getNumAILosses(this.onNumAILossesRcvd);
+  }
+
+  onNumAIWinsRcvd(res) {
+    if (res.error) {
+      console.log(res.body.message);
+    } else {
+      this.setState({
+        numAIWins: res.body.num
+      });
+      cookies.set(NUM_AI_WINS_KEY, this.state.numAIWins, { path: "/" });
+    }
+  }
+
+  onNumAITiesRcvd(res) {
+    if (res.error) {
+      console.log(res.body.message);
+    } else {
+      this.setState({
+        numAITies: res.body.num
+      });
+      cookies.set(NUM_AI_TIES_KEY, this.state.numAITies, { path: "/" });
+    }
+  }
+
+  onNumAILossesRcvd(res) {
+    if (res.error) {
+      console.log(res.body.message);
+    } else {
+      this.setState({
+        numAILosses: res.body.num
+      });
+      cookies.set(NUM_AI_LOSSES_KEY, this.state.numAILosses, { path: "/" });
+    }
   }
 
   render() {
@@ -268,6 +327,9 @@ class Page extends Component {
               rating={this.state.rating}
               openInstructions={this.openInstructions}
               logout={this.logout}
+              numWins={this.state.numAILosses}
+              numTies={this.state.numAITies}
+              numLosses={this.state.numAIWins}
             />
             <Navigation />
           </div>

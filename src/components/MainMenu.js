@@ -20,7 +20,7 @@ class MainMenu extends Component {
         <br />
         <br />
         <Button className="Menu-Button" onClick={this.props.joinRandomGame}>
-          Join Random Game
+           vs. AI
         </Button>
         <br />
         <br />
@@ -29,6 +29,9 @@ class MainMenu extends Component {
         </Link>
         <br />
         <br />
+        <h3>Human vs. AI Record</h3>
+        <br />
+        <p>{this.props.numWins} - {this.props.numTies} - {this.props.numLosses}</p>
       </div>
     );
   }

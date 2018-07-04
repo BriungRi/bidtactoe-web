@@ -119,7 +119,6 @@ function makeBid(params, callback) {
 }
 
 function makeMove(params, callback) {
-  console.log("Game index: " + params.gameIndex);
   const req = unirest("POST", BASE_URL + "make_move");
   req
     .headers({
@@ -129,6 +128,36 @@ function makeMove(params, callback) {
     .form({
       gameIndex: params.gameIndex,
       cells: params.cells
+    })
+    .end(callback);
+}
+
+function getNumAIWins(callback) {
+  const req = unirest("GET", BASE_URL + "num_ai_wins");
+  req
+    .headers({
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .end(callback);
+}
+
+function getNumAITies(callback) {
+  const req = unirest("GET", BASE_URL + "num_ai_ties");
+  req
+    .headers({
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/x-www-form-urlencoded"
+    })
+    .end(callback);
+}
+
+function getNumAILosses(callback) {
+  const req = unirest("GET", BASE_URL + "num_ai_losses");
+  req
+    .headers({
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/x-www-form-urlencoded"
     })
     .end(callback);
 }
@@ -160,6 +189,9 @@ const Client = {
   leaveQueue,
   makeBid,
   makeMove,
+  getNumAIWins,
+  getNumAITies,
+  getNumAILosses,
   subscribeToWS,
   disconnectFromWS
 };
