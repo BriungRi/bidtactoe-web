@@ -27,7 +27,7 @@ class Game extends Component {
       username: this.props.username,
       opponentUsername: this.props.opponentUsername,
       isPlayerOne: this.props.isPlayerOne,
-      boardState: "  X O X  ",
+      boardState: "         ",
       gameState: GameState.BIDDING,
       bidAmt: 50,
       maxBidAmt: 100
