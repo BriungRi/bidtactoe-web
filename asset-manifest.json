@@ -1,6 +1,13 @@
 {
-  "main.css": "static/css/main.17530b99.css",
-  "main.css.map": "static/css/main.17530b99.css.map",
-  "main.js": "static/js/main.8fd9f932.js",
-  "main.js.map": "static/js/main.8fd9f932.js.map"
+  "main.css": "/bidtactoe/static/css/main.7481e391.chunk.css",
+  "main.js": "/bidtactoe/static/js/main.7df1d3a5.chunk.js",
+  "main.js.map": "/bidtactoe/static/js/main.7df1d3a5.chunk.js.map",
+  "runtime~main.js": "/bidtactoe/static/js/runtime~main.165d53c4.js",
+  "runtime~main.js.map": "/bidtactoe/static/js/runtime~main.165d53c4.js.map",
+  "static/js/2.dce11fec.chunk.js": "/bidtactoe/static/js/2.dce11fec.chunk.js",
+  "static/js/2.dce11fec.chunk.js.map": "/bidtactoe/static/js/2.dce11fec.chunk.js.map",
+  "index.html": "/bidtactoe/index.html",
+  "precache-manifest.dc9d8d1e7f0911bd9f36b74e80d61d87.js": "/bidtactoe/precache-manifest.dc9d8d1e7f0911bd9f36b74e80d61d87.js",
+  "service-worker.js": "/bidtactoe/service-worker.js",
+  "static/css/main.7481e391.chunk.css.map": "/bidtactoe/static/css/main.7481e391.chunk.css.map"
 }
