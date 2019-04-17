@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "muicss/lib/react/button";
 import Lottie from "react-lottie";
-import * as animationData from "./../loader.json";
+import animationData from "./../loader.json";
 import "./../css/App.css";
 
 class Loading extends Component {
